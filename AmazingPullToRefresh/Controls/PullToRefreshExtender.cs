@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using AmazingPullToRefresh.Extensions;
+using Windows.UI;
 
 namespace AmazingPullToRefresh.Controls
 {
@@ -228,6 +229,7 @@ namespace AmazingPullToRefresh.Controls
             _presenter.ManipulationDelta += ScrollContentPresenter_OnManipulationDelta;
             _presenter.ManipulationCompleted += ScrollContentPresenter_OnManipulationCompleted;
             _presenter.RenderTransform = new TranslateTransform();
+            _presenter.Background = new SolidColorBrush(Colors.Transparent);
         }
 
         public void CompleteRefresh()
