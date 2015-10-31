@@ -125,7 +125,7 @@ namespace AmazingPullToRefresh.Controls
                 {
                     _inertiaStarted = DateTime.UtcNow.Ticks;
                 }
-                // 慣性スクロールで境界エフェクトを300ms以上表示した場合Manipulationを終了
+                // 慣性スクロールで境界エフェクトを100ms以上表示した場合Manipulationを終了
                 if ((DateTime.UtcNow.Ticks - _inertiaStarted) > 1000000) // 100ms
                 {
                     e.Complete();
