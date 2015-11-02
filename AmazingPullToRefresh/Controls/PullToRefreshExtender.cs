@@ -55,7 +55,7 @@ namespace AmazingPullToRefresh.Controls
         // 慣性スクロールでの移動を無視する？
         private bool _inertiaIgnoring;
         // Manipulationを開始したx, y 座標
-        private double _startingOffsetX, _startingOffsetY, _startingTranslateOffsetY;
+        private double _startingOffsetX, _startingOffsetY;
         // 慣性スクロールで境界エフェクトを表示し始めた時刻
         private long _inertiaStarted;
 
