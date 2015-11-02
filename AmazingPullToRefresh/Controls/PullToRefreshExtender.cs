@@ -55,7 +55,7 @@ namespace AmazingPullToRefresh.Controls
         // 慣性スクロールでの移動を無視する？
         private bool _inertiaIgnoring;
         // Manipulationを開始したx, y 座標
-        private double _startingOffsetX, _startingOffsetY;
+        private double _startingOffsetX, _startingOffsetY, _startingTranslateOffsetY;
         // 慣性スクロールで境界エフェクトを表示し始めた時刻
         private long _inertiaStarted;
 
@@ -73,7 +73,7 @@ namespace AmazingPullToRefresh.Controls
         private void ScrollContentPresenter_OnManipulationStarting(object sender, ManipulationStartingRoutedEventArgs e)
         {
             _startingOffsetX = _scrollViewer.HorizontalOffset;
-            _startingOffsetY = _scrollViewer.VerticalOffset;
+            _startingOffsetY = _scrollViewer.VerticalOffset - ((TranslateTransform)_presenter.RenderTransform).Y;
         }
 
         private void ScrollContentPresenter_OnManipulationInertiaStarting(object sender, ManipulationInertiaStartingRoutedEventArgs e)
@@ -89,12 +89,12 @@ namespace AmazingPullToRefresh.Controls
             // 境界エフェクトを出す距離を計算
             var overhangX = _startingOffsetX - e.Cumulative.Translation.X;
             var overhangY = _startingOffsetY - e.Cumulative.Translation.Y;
+            var tr = _presenter.RenderTransform as TranslateTransform;
             // 更新中のヘッダオフセットを計算
             var refreshingOffset = _isRefreshing ? IndicatorHeight : 0;
             // ScrollViewerを正しい位置へスクロール
-            _scrollViewer.ChangeView(_startingOffsetX - e.Cumulative.Translation.X, _startingOffsetY - e.Cumulative.Translation.Y, null);
+            _scrollViewer.ChangeView(overhangX, overhangY, null);
             // 境界エフェクトの計算をします。
-            var tr = _presenter.RenderTransform as TranslateTransform;
             // スクロールが無効の時は処理しない
             if (_scrollViewer.HorizontalScrollMode == ScrollMode.Disabled) { }
             // 左端よりさらにスクロールされた場合は、距離の1/4を境界エフェクトとして表示
@@ -106,15 +106,19 @@ namespace AmazingPullToRefresh.Controls
             // 水平スクロールと同じ感じ
             if (_scrollViewer.VerticalScrollMode == ScrollMode.Disabled) { }
             // 更新中のヘッダオフセットを考慮して境界エフェクトを表示
+            else if (_isRefreshing && overhangY < -IndicatorHeight) { tr.Y = refreshingOffset + (-overhangY) / 4; }
+            // ヘッダを追い出す処理
+            else if (_isRefreshing && overhangY < 0) { tr.Y = -overhangY; }
+            // 更新中のヘッダオフセットを考慮して境界エフェクトを表示
             else if (overhangY < 0) { tr.Y = refreshingOffset + (-overhangY) / 4; }
             // 下端の処理
             else if (overhangY > _scrollViewer.ScrollableHeight) { tr.Y = (_scrollViewer.ScrollableHeight - overhangY) / 4; }
             // どちらでもなく、更新処理中でなければRenderTransformを初期化
             else if (!_isRefreshing) { tr.Y = 0; }
             // 引っ張って更新のインジケータを更新する
+            ((TranslateTransform)_indicator.RenderTransform).Y = -IndicatorHeight + tr.Y;
             if (!_isRefreshing)
             {
-                ((TranslateTransform)_indicator.RenderTransform).Y = -IndicatorHeight + tr.Y;
                 _indicator.Value = tr.Y / Threshold;
             }
             // 慣性スクロール中で、境界エフェクトを表示すべき条件が整った
@@ -173,14 +177,14 @@ namespace AmazingPullToRefresh.Controls
             var yanim = new DoubleAnimation
             {
                 From = tr.Y,
-                To = _isRefreshing ? IndicatorHeight : 0,
+                To = (_isRefreshing && tr.Y > 0) ? (tr.Y > IndicatorHeight ? IndicatorHeight : tr.Y) : 0,
                 Duration = TimeSpan.FromMilliseconds(300),
                 EasingFunction = new CircleEase { EasingMode = EasingMode.EaseOut }
             };
             var bdranim = new DoubleAnimation
             {
                 From = btr.Y,
-                To = _isRefreshing ? 0 : -IndicatorHeight,
+                To = _isRefreshing ? (btr.Y > 0 ? 0 : btr.Y) : -IndicatorHeight,
                 Duration = TimeSpan.FromMilliseconds(300),
                 EasingFunction = new CircleEase { EasingMode = EasingMode.EaseOut }
             };
