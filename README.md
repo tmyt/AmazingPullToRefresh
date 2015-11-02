@@ -36,6 +36,12 @@ private async void PullToRefreshExtender_RefreshRequested(object sender, Refresh
 }
 ```
 
+ToDo
+----
+
+- Stylize pull to refresh indicator
+
+
 License
 ----
 
