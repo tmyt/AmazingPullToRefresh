@@ -9,7 +9,7 @@ namespace AmazingPullToRefresh.Controls
 
         public static void SetExtender(DependencyObject element, PullToRefreshExtender value)
         {
-            ((PullToRefreshExtender)element.GetValue(ExtenderProperty))?.Detach(element);
+            (element.GetValue(ExtenderProperty) as PullToRefreshExtender)?.Detach(element);
             element.SetValue(ExtenderProperty, value);
             value?.Attach(element);
         }
