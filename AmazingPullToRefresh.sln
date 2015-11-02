@@ -5,6 +5,12 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmazingPullToRefresh", "AmazingPullToRefresh\AmazingPullToRefresh.csproj", "{FFDC3DF9-B277-45B7-BDB9-0B4BE0652F99}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{DE154534-A3DA-4DCF-B966-BA6E0BE42B12}"
+	ProjectSection(SolutionItems) = preProject
+		Tools\AmazingPullToRefresh.nuspec = Tools\AmazingPullToRefresh.nuspec
+		Tools\nuget.exe = Tools\nuget.exe
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

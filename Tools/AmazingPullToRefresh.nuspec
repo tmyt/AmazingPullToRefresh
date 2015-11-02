@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <version>0.9.0</version>
+    <authors>tmyt</authors>
+    <owners>tmyt</owners>
+    <licenseUrl>http://opensource.org/licenses/ms-pl.html</licenseUrl>
+    <projectUrl>http://github.com/tmyt/AmazingPullToRefresh</projectUrl>
+    <id>AmazingPullToRefresh</id>
+    <title>AmazingPullToRefresh</title>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Add PullToRefresh behavior to ListView, GridView and more controls with ScrollViewer.</description>
+    <language>en-US</language>
+    <tags>xaml uap uwp pulltorefresh pull to refresh listview</tags>
+  </metadata>
+  <files>
+    <file src="..\AmazingPullToRefresh\bin\Release\Themes\Generic.xbf" target="lib\uap10.0\AmazingPulltoRefresh\Themes\Generic.xbf" />
+    <file src="..\AmazingPullToRefresh\bin\Release\AmazingPullToRefresh.xr.xml" target="lib\uap10.0\AmazingPulltoRefresh\AmazingPullToRefresh.xr.xml" />
+    <file src="..\AmazingPullToRefresh\Properties\AmazingPullToRefresh.rd.xml" target="lib\uap10.0\AmazingPullTorefresh\Properties\AmazingPullToRefresh.rd.xml" />
+    <file src="..\AmazingPullToRefresh\bin\Release\AmazingPullToRefresh.pri" target="lib\uap10.0\AmazingPullToRefresh.pri" />
+    <file src="..\AmazingPullToRefresh\bin\Release\AmazingPullToRefresh.dll" target="lib\uap10.0\AmazingPullToRefresh.dll" />
+  </files>
+</package>
