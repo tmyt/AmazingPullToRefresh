@@ -202,10 +202,11 @@ namespace AmazingPullToRefresh.Controls
 
         private void FireRefresh()
         {
-            var e = new RefreshRequestedEventArgs();
+            var e = new RefreshRequestedEventArgs(() => CompleteRefresh());
             RefreshRequested?.Invoke(this, e);
             if (e.Cancel) return;
             _isRefreshing = true;
+            if (!e.IsDeferred) CompleteRefresh();
         }
 
         private void UpdateProperties(ScrollViewer sv)
@@ -236,7 +237,7 @@ namespace AmazingPullToRefresh.Controls
             _presenter.Background = new SolidColorBrush(Colors.Transparent);
         }
 
-        public void CompleteRefresh()
+        private void CompleteRefresh()
         {
             if (!_isRefreshing) return;
             _isRefreshing = false;
