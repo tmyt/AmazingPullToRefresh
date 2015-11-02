@@ -4,7 +4,7 @@
     <version>0.9.0</version>
     <authors>tmyt</authors>
     <owners>tmyt</owners>
-    <licenseUrl>http://opensource.org/licenses/ms-pl.html</licenseUrl>
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
     <projectUrl>http://github.com/tmyt/AmazingPullToRefresh</projectUrl>
     <id>AmazingPullToRefresh</id>
     <title>AmazingPullToRefresh</title>
