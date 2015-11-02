@@ -55,7 +55,7 @@ namespace AmazingPullToRefresh.Controls
         // 慣性スクロールでの移動を無視する？
         private bool _inertiaIgnoring;
         // Manipulationを開始したx, y 座標
-        private double _manipulationStartedX, _manipulationStartedY;
+        private double _startingOffsetX, _startingOffsetY;
         // 慣性スクロールで境界エフェクトを表示し始めた時刻
         private long _inertiaStarted;
 
@@ -72,8 +72,8 @@ namespace AmazingPullToRefresh.Controls
 
         private void ScrollContentPresenter_OnManipulationStarting(object sender, ManipulationStartingRoutedEventArgs e)
         {
-            _manipulationStartedX = _scrollViewer.HorizontalOffset;
-            _manipulationStartedY = _scrollViewer.VerticalOffset;
+            _startingOffsetX = _scrollViewer.HorizontalOffset;
+            _startingOffsetY = _scrollViewer.VerticalOffset;
         }
 
         private void ScrollContentPresenter_OnManipulationInertiaStarting(object sender, ManipulationInertiaStartingRoutedEventArgs e)
@@ -87,12 +87,12 @@ namespace AmazingPullToRefresh.Controls
         {
             if (e.PointerDeviceType != PointerDeviceType.Touch) return;
             // 境界エフェクトを出す距離を計算
-            var overhangX = _manipulationStartedX - e.Cumulative.Translation.X;
-            var overhangY = _manipulationStartedY - e.Cumulative.Translation.Y;
+            var overhangX = _startingOffsetX - e.Cumulative.Translation.X;
+            var overhangY = _startingOffsetY - e.Cumulative.Translation.Y;
             // 更新中のヘッダオフセットを計算
             var refreshingOffset = _isRefreshing ? IndicatorHeight : 0;
             // ScrollViewerを正しい位置へスクロール
-            _scrollViewer.ChangeView(_manipulationStartedX - e.Cumulative.Translation.X, _manipulationStartedY - e.Cumulative.Translation.Y, null);
+            _scrollViewer.ChangeView(_startingOffsetX - e.Cumulative.Translation.X, _startingOffsetY - e.Cumulative.Translation.Y, null);
             // 境界エフェクトの計算をします。
             var tr = _presenter.RenderTransform as TranslateTransform;
             // スクロールが無効の時は処理しない
